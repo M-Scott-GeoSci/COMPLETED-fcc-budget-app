@@ -1,5 +1,6 @@
 class Category:
 
+
   def __init__(self,Category): #define class variables
     self.Category = Category #Categories of things
     self.ledger = [] #The ledger of all transactions
@@ -54,9 +55,11 @@ class Category:
     if (self.total - amount)>0:
       return True
     return False
+  
 
 
 def create_spend_chart(categories): #Creates a chart of spendature percentages
+  import math
   head = "Percentage spent by category"
   led={}
   words = []
@@ -79,14 +82,23 @@ def create_spend_chart(categories): #Creates a chart of spendature percentages
       longest = len(i.Category)
 
   for y in led:
-    led[y] = round((led[y]/total)*10)
+    led[y] = (led[y]/total)*10
+    led[y] = math.floor(led[y])
+
 
   for x in range(100,-10,-10):
+    spaces =10
     line = "{:>4}".format(str(x)+"|")
     for z in led:
-      if (led[z] == (x/10)) or (led[z] > (x//10)):
-        line += " o"
-    chart+=line+"\n"
+      if (led[z] == (x/10)):
+        line += " o "
+        spaces-=3
+        led[z]-=1
+      else:
+        line+="   "
+        spaces-=3
+
+    chart+=line+spaces*" "+"\n"
   chart+="    ----------"
 
 
@@ -108,12 +120,9 @@ def create_spend_chart(categories): #Creates a chart of spendature percentages
     wordline+="     "
     for l in w:
     
-      wordline+=l+" "
+      wordline+=l+"  "
     wordline+="\n"
-
-
-
-        
+  wordline = wordline[:-1]
 
 
   return head+"\n"+chart+"\n"+wordline
