@@ -63,6 +63,9 @@ def create_spend_chart(categories): #Creates a chart of spendature percentages
   totalbycat = 0
   total = 0
   wordline = ""
+  chart = ""
+  longest = 0
+  count = 0
 
   for i in categories:
     for x in i.ledger:
@@ -72,32 +75,46 @@ def create_spend_chart(categories): #Creates a chart of spendature percentages
         totalbycat +=val
     led[i.Category]=totalbycat
     totalbycat = 0
+    if len(i.Category)>longest:
+      longest = len(i.Category)
+
   for y in led:
     led[y] = round((led[y]/total)*10)
 
-  print(head)
   for x in range(100,-10,-10):
     line = "{:>4}".format(str(x)+"|")
     for z in led:
       if (led[z] == (x/10)) or (led[z] > (x//10)):
         line += " o"
-    print(line)
-  print("    ----------")
+    chart+=line+"\n"
+  chart+="    ----------"
+
+
+  for x in range(longest): 
+    words.append([])
+    for i in range(len(categories)):
+      words[x].append(" ")
+
+
+
+
 
   for i in categories:
     for y in range(len(i.Category)):
-      words.append([])
-      for z in range(len(i.Category[y])):
-        words[y].append(i.Category[y])
+      words[y][count] = i.Category[y]
+    count+=1
+
+  for w in words:
+    wordline+="     "
+    for l in w:
+    
+      wordline+=l+" "
+    wordline+="\n"
+
+
+
         
-  words = list(filter(None,words))
-  print(words)
 
 
-  table = head+"\n"
-
-        
-
-
-  return ""
+  return head+"\n"+chart+"\n"+wordline
 
