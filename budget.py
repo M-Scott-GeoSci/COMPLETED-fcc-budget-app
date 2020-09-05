@@ -59,7 +59,6 @@ class Category:
 def create_spend_chart(categories): #Creates a chart of spendature percentages
   head = "Percentage spent by category"
   led={}
-  word = []
   words = []
   totalbycat = 0
   total = 0
@@ -73,11 +72,8 @@ def create_spend_chart(categories): #Creates a chart of spendature percentages
         totalbycat +=val
     led[i.Category]=totalbycat
     totalbycat = 0
-  #print(led)
-  #print(total)
   for y in led:
     led[y] = round((led[y]/total)*10)
-  #print(led)
 
   print(head)
   for x in range(100,-10,-10):
@@ -87,18 +83,16 @@ def create_spend_chart(categories): #Creates a chart of spendature percentages
         line += " o"
     print(line)
   print("    ----------")
- 
+
   for i in categories:
-    for y in i.Category:
-      word.append(y)
-    words.append(word)
-    word = []
+    for y in range(len(i.Category)):
+      words.append([])
+      for z in range(len(i.Category[y])):
+        words[y].append(i.Category[y])
+        
+  words = list(filter(None,words))
+  print(words)
 
-
-  for x in range(len(words)):
-    wordline += words[x][0]+" "
-  wordline = "{:>11}".format(wordline)
-  print(wordline)
 
   table = head+"\n"
 
